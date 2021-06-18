@@ -1,0 +1,31 @@
+asyncapi: '2.0.0'
+info:
+    title: Job API
+    version: '1.0.0'
+    description:
+        The Job API allows you to receive job related events.
+    license:
+        name: CHG Healthcare 1.0
+        url: 'https://chghealthcare.com'
+servers:
+    mosquitto:
+        url: mqtt://test.mosquitto.org
+        protocol: mqtt
+channels:
+    job/posted:
+      publish:
+        summary: Inform about new Job posted or created.
+        operationId: onNewJob
+        message:
+            name: newJob
+            payload:
+                type: object
+                properties:
+                    id: 
+                      type: integer
+                      minimum: 0
+                      description: id of the jobPosted.
+                    name:
+                        type: string
+                        description: Name of the job.                     
+                          

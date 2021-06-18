@@ -1,0 +1,30 @@
+asyncapi: '2.0.0'
+info:
+    title: Travel Notification API
+    version: '1.0.0'
+    description:
+        This is the travel notification api to show to mobile apps.
+    license:
+        name: CHG Healthcare 1.0
+        url: 'https://chghealthcare.com'
+servers:
+    mosquitto:
+        url: mqtt://test.mosquitto.org
+        protocol: mqtt
+channels:
+    travel/itinerary/created:
+      publish:
+        summary: Informat about new Travel Itinerary.
+        operationId: onNewTravelItinerary
+        message:
+            name: NewTravelItinerary
+            payload:
+                type: object
+                properties:
+                    id: 
+                      type: integer
+                      minimum: 0
+                      description: id of the travel itinerary.
+                    name:
+                        type: string
+                        description: A name to show to in mobile notification such as 'Your Flight has been booked.'                                     
