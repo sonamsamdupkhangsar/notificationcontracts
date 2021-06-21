@@ -21,6 +21,9 @@ channels:
             payload:
                 type: object
                 properties:
+                    event: 
+                        type: string
+                        description: name of event such as NewTravelItinerary  
                     id: 
                       type: integer
                       minimum: 0

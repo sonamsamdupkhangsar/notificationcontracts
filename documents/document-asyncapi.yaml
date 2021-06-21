@@ -1,31 +1,52 @@
 asyncapi: '2.0.0'
 info:
-    title: Document API
-    version: '1.0.0'
-    description:
-        The Document API will send events about Document 
-        events such requestCreated, documentUpdated.
-    license:
-        name: CHG Healthcare 1.0
-        url: 'https://chghealthcare.com'
+  title: Document API
+  version: '1.0.0'
+  description:
+      The Document API will send events about Document 
+      events such requestCreated, documentUpdated.
+  license:
+      name: CHG Healthcare 1.0
+      url: 'https://chghealthcare.com'
 servers:
-    mosquitto:
-        url: mqtt://test.mosquitto.org
-        protocol: mqtt
+  mosquitto:
+    url: mqtt://test.mosquitto.org
+    protocol: mqtt
 channels:
-    document/requested:
-      publish:
-        summary: Inform about new Document requested.
-        operationId: onDocumentRequested
-        message: 
-            name: DocumentRequest 
-            payload:
-                type: object
-                properties:
-                    id: 
-                      type: integer
-                      minimum: 0
-                      description: id type of the document request.
-                    name:
-                        type: string
-                        description: Document type requested in readable form.                          
+  document/requested:
+    publish:
+      summary: Inform about new Document requested.
+      operationId: onDocumentRequested
+      message: 
+        $ref: '#/components/messages/DocumentRequest'
+
+components:
+  messages:            
+    DocumentRequest: 
+      name: DocumentRequest
+      title: Document Requested
+      summary: Document that was requested by a external app
+      correlationId: 
+        description: Default message correlationId
+        location: "$message.header#/MQMD/CorrelId"
+      contentType: application/json  
+      payload:
+        $ref: "#/components/schemas/documentRequestedPayload"
+  schemas:
+    documentRequestedPayload:            
+      type: object                
+      properties:                  
+        event: 
+          type: string
+          description: name of event such as DocumentRequested
+        id: 
+          type: integer
+          minimum: 0
+          description: id type of the document request.
+        name:
+          type: string
+          description: Document type requested in readable form.
+  correlationIds:
+    sentAtCorrelator:
+      description: Data from message payload used as correlation ID
+      location: $message.payload#/id                                    
